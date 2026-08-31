@@ -1,0 +1,39 @@
+# Copyright (C) 2022-2023 Mitsubishi Electric Research Laboratories (MERL)
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# Python
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+*.py[cod]
+*.pyo
+
+# macOS and notebooks
+.DS_Store
+.ipynb_checkpoints/
+
+# Run artifacts
+runs/
+examples/outputs/
+*.p
+*.pkl
+*.pickle
+!examples/saved_outputs/**/*.pickle
+
+# Figure artifacts
+runs/**/*.gif
+runs/**/*.mp4
+runs/**/*.png
+
+# Log files
+*.log
+*.out
+*.err
+
+# Local editor/agent state
+.vscode/
+.idea/
+.codex/
+.agents/

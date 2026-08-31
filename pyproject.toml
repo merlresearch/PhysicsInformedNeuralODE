@@ -1,0 +1,28 @@
+# Copyright (C) 2022-2023 Mitsubishi Electric Research Laboratories (MERL)
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "physics-informed-neural-ode"
+version = "1.0.0"
+description = "Physics-Informed Neural ODE models using collocation points"
+readme = "README.md"
+requires-python = ">=3.9"
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["pinode", "pinode.*"]
+
+[tool.setuptools.package-data]
+"pinode.burgers" = ["*.yaml"]
+"pinode.duffing" = ["*.yaml"]

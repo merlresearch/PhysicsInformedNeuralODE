@@ -1,0 +1,83 @@
+# Copyright (C) 2022-2023 Mitsubishi Electric Research Laboratories (MERL)
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+seml:
+  executable: src/pinode/burgers/pinode_burgers.py
+  name: burgers_noise
+  project_root_dir: /mmfs1/home/aksh/storage/repos/PhysicsInformedNeuralODE
+  conda_environment: compute
+  output_dir: slurm_logs
+
+slurm:
+  experiments_per_job: 4
+  max_simultaneous_jobs: 4
+  sbatch_options:
+    account: dynamicsai
+    partition: gpu-a40
+    gres: gpu:1       # num GPUs
+    mem: 64G          # memory
+    cpus-per-task: 8  # num cores
+    time: 2-23:00     # max time, D-HH:MM
+
+###### BEGIN PARAMETER CONFIGURATION ######
+
+fixed:
+  device: "cuda"
+  n_epochs: 500
+  version: "v18_noise_low_data"
+  seed: 43
+  shift: 0
+  n_steps_train: 20
+  batch_size: 64
+  n_snapshots_train_bumps: 1024
+  n_snapshots_train_normal: 0
+  n_snapshots_train_sine: 0
+  n_snapshots_test_bumps: 100
+  n_snapshots_test_normal: 100
+  n_snapshots_test_sine: 100
+  n_collocations_sine: 65536
+  n_collocations_bumps: 0
+  n_collocations_normal: 0
+
+  #physics_informed:
+  #fixed:
+  # include_physics_informed: 1
+  # include_data_driven: 0
+  # job_name: "physics_informed"
+
+data_driven_high:
+  fixed:
+    include_physics_informed: 0
+    include_data_driven: 1
+    job_name: "data_driven"
+  grid:
+    noise:
+      type: loguniform
+      min: 2e-0
+      max: 1e1
+      num: 4
+
+hybrid_high:
+  fixed:
+    include_physics_informed: 1
+    include_data_driven: 1
+    job_name: "hybrid"
+  grid:
+    noise:
+      type: loguniform
+      min: 2e-0
+      max: 1e1
+      num: 4
+
+hybrid_low:
+  fixed:
+    include_physics_informed: 1
+    include_data_driven: 1
+    job_name: "hybrid"
+  grid:
+    noise:
+      type: loguniform
+      min: 1e-4
+      max: 1e0
+      num: 7

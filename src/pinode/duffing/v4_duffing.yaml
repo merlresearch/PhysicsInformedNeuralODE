@@ -1,0 +1,111 @@
+# Copyright (C) 2022-2023 Mitsubishi Electric Research Laboratories (MERL)
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+
+seml:
+  executable: src/pinode/duffing/hi_dim_duffing.py
+  name: hi_dim_duffing
+  project_root_dir: /data/sholokhov/PhysicsInformedNeuralODE
+  conda_environment: merl
+
+slurm:
+  experiments_per_job: 2
+  max_simultaneous_jobs: 3
+  sbatch_options:
+    gres: gpu:1
+    mem: 8G          # memory
+    cpus-per-task: 2  # num cores
+    time: 0-23:00     # max time, D-HH:MM
+
+###### BEGIN PARAMETER CONFIGURATION ######
+
+fixed:
+  device: "cuda"
+  version: "v4_duff_narrower_samples"
+  n_layers: 3
+  hidden_width: 512
+  seed: 43
+  n_epochs: 400
+  n_snapshots_test_left: 100
+  n_snapshots_test_right: 100
+  n_snapshots_test_outer: 100
+  n_steps_train: 50
+  n_snapshots_train_left: 6144
+  n_snapshots_train_right: 0
+  n_snapshots_train_outer: 0
+  n_collocations_left: 0
+  n_collocations_right: 50000
+  n_collocations_outer: 50000
+
+
+pikn_left:
+  fixed:
+    job_name: "pikn_left"
+    n_latent_layers: 1
+    include_physics_informed: 0
+  grid:
+    n_latent:
+      type: choice
+      options:
+        - 4
+        - 8
+        - 16
+
+pinode_left:
+  fixed:
+    job_name: "pinode_left"
+    n_latent: 2
+    n_latent_layers: 3
+    latent_hidden_width: 256
+    include_physics_informed: 0
+
+pikn_left_pi:
+  fixed:
+    job_name: "pikn_left"
+    n_latent_layers: 1
+    include_physics_informed: 1
+  grid:
+    n_latent:
+      type: choice
+      options:
+        - 4
+        - 8
+        - 16
+    closure_weight:
+      type: choice
+      options:
+        - 1
+        - 5
+        - 50
+
+pinode_left_pi:
+  fixed:
+    job_name: "pinode_left"
+    n_latent: 2
+    n_latent_layers: 3
+    latent_hidden_width: 256
+    include_physics_informed: 1
+  grid:
+    closure_weight:
+      type: choice
+      options:
+        - 1
+        - 5
+        - 50
+
+pinode_right_outer_pi:
+  fixed:
+    job_name: "pinode_right_outer_pi"
+    n_latent: 2
+    n_latent_layers: 3
+    latent_hidden_width: 256
+    include_physics_informed: 1
+    include_data_driven: 0
+  grid:
+    closure_weight:
+      type: choice
+      options:
+        - 1
+        - 5
+        - 50

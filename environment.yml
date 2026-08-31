@@ -1,0 +1,33 @@
+# Copyright (C) 2022-2023 Mitsubishi Electric Research Laboratories (MERL)
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+name: pinode
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9.12
+  - pip
+  - numpy           # BSD License
+  - scipy           # BSD License
+  - matplotlib      # Python Software Foundation License (PSF)
+  - seaborn         # BSD License
+  - altair          # BSD-3-Clause License
+  - reportlab       # BSD License
+  - svglib          # LGPL-3.0-or-later
+  - vl-convert-python # BSD-3-Clause license
+  - tqdm            # MIT License (MIT), Mozilla Public Licence (MPL) v. 2.0 - Exhibit A
+  - pymongo         # Apache-2.0 license
+  - sacred          # MIT License
+  - pandas          # Apache License, Version 2.0
+  - ipykernel       # BSD License
+  - pytorch         # BSD License (BSD-3); imported as "torch" in Python
+  - torchvision     # BSD
+  - torchaudio      # BSD License
+  - ipympl          # BSD-3-Clause License
+  - torchdiffeq     # MIT License
+  - pysindy         # MIT License (MIT)
+
+# https://github.com/rkotynski/D_FDRI -- GPL-3.0-or-later

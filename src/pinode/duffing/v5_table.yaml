@@ -1,0 +1,64 @@
+# Copyright (C) 2022-2023 Mitsubishi Electric Research Laboratories (MERL)
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+seml:
+  executable: src/pinode/duffing/hi_dim_duffing.py
+  name: hi_dim_duffing
+  project_root_dir: /mmfs1/home/aksh/storage/repos/PhysicsInformedNeuralODE
+  conda_environment: compute
+  output_dir: slurm_logs
+
+slurm:
+  experiments_per_job: 1
+  max_simultaneous_jobs: 8
+  sbatch_options:
+    account: amath
+    partition: gpu-rtx6k
+    gres: gpu:1
+    mem: 8G          # memory
+    cpus-per-task: 2  # num cores
+    time: 1-23:00     # max time, D-HH:MM
+
+###### BEGIN PARAMETER CONFIGURATION ######
+
+fixed:
+  device: "cuda"
+  version: "v5_duff_table"
+  n_layers: 3
+  hidden_width: 512
+  seed: 43
+  n_epochs: 400
+  n_snapshots_test_left: 100
+  n_snapshots_test_right: 100
+  n_snapshots_test_outer: 100
+  n_steps_train: 50
+  n_snapshots_train_left: 2048
+  n_snapshots_train_right: 2048
+  n_snapshots_train_outer: 2048
+  n_collocations_left: 50000
+  n_collocations_right: 50000
+  n_collocations_outer: 50000
+
+grid:
+  include_physics_informed:
+    type: choice
+    options:
+      - 0
+      - 1
+  include_data_driven:
+    type: choice
+    options:
+      - 0
+      - 1
+
+kn:
+  fixed:
+    n_latent_layers: 1
+    n_latent: 16
+
+node:
+  fixed:
+    n_latent: 2
+    n_latent_layers: 3
+    latent_hidden_width: 256

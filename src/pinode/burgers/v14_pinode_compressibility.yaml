@@ -1,0 +1,77 @@
+# Copyright (C) 2022-2023 Mitsubishi Electric Research Laboratories (MERL)
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+seml:
+  executable: src/pinode/burgers/pinode_burgers.py
+  name: pinode_burgers
+  project_root_dir: /data/sholokhov/PhysicsInformedNeuralODE
+  conda_environment: merl
+
+slurm:
+  experiments_per_job: 2
+  max_simultaneous_jobs: 3
+  sbatch_options:
+    gres: gpu:1       # num GPUs
+    mem: 8G           # memory
+    cpus-per-task: 2  # num cores
+    time: 2-23:00     # max time, D-HH:MM
+
+###### BEGIN PARAMETER CONFIGURATION ######
+
+fixed:
+  device: "cuda"
+  n_epochs: 500
+  version: "v14_compressibility"
+  seed: 43
+  shift: 0
+  n_steps_train: 20
+  batch_size: 64
+  n_snapshots_train_bumps: 0
+  n_snapshots_train_normal: 0
+  n_snapshots_train_sine: 16384
+  n_snapshots_test_bumps: 100
+  n_snapshots_test_normal: 100
+  n_snapshots_test_sine: 100
+  n_collocations_sine: 100000
+  n_collocations_bumps: 0
+  n_collocations_normal: 0
+grid:
+  include_physics_informed:
+    type: choice
+    options:
+      - 1
+      - 0
+
+pinode:
+  fixed:
+    n_latent_layers: 3
+    job_name: "pinode"
+  grid:
+    n_latent:
+      type: choice
+      options:
+        - 2
+        - 4
+        - 8
+        - 16
+        - 32
+        - 64
+
+pikn:
+  fixed:
+    n_latent_layers: 1
+    job_name: "pikn"
+  grid:
+    n_latent:
+      type: choice
+      options:
+        - 2
+        - 4
+        - 8
+        - 16
+        - 32
+        - 64
+        - 128
+        - 256
+        - 512
